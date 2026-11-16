@@ -1,0 +1,28 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "bsc-pessoal",
+  "main": "src/index.js",
+  "compatibility_date": "2026-11-16",
+  "workers_dev": true,
+  "dev": { "ip": "127.0.0.1", "port": 8787, "inspector_port": 9230 },
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "not_found_handling": "single-page-application"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "bsc-pessoal",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "vars": {
+    "AUTH_MODE": "access",
+    "ACCESS_TEAM_DOMAIN": "https://SUA-EQUIPE.cloudflareaccess.com",
+    "ACCESS_AUD": "COLE_O_AUD_DA_APLICACAO"
+  },
+  "observability": { "enabled": true }
+}

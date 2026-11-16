@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#176756">
+    <meta name="description" content="Seu planejamento pessoal, com objetivos, metas e pequenas ações que fazem sentido para a sua vida.">
+    <title>BSC pessoal · Meu planejamento</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Ir para o conteúdo</a>
+    <div id="app" aria-busy="true">
+      <main class="initial-screen">
+        <div class="brand-symbol" aria-hidden="true">b.</div>
+        <h1>BSC pessoal</h1>
+        <p>Carregando seu planejamento…</p>
+        <span class="spinner" aria-hidden="true"></span>
+      </main>
+    </div>
+    <div id="toast-region" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+    <dialog id="editor-dialog" aria-labelledby="dialog-title">
+      <div id="dialog-content"></div>
+    </dialog>
+    <dialog id="confirm-dialog" aria-labelledby="confirm-title">
+      <form method="dialog" class="dialog-content compact-dialog">
+        <div class="dialog-heading">
+          <h2 id="confirm-title">Excluir registro?</h2>
+          <button class="icon-button" value="cancel" aria-label="Cancelar">×</button>
+        </div>
+        <p id="confirm-message" class="muted"></p>
+        <div class="dialog-actions">
+          <button class="button secondary" value="cancel">Cancelar</button>
+          <button class="button danger" value="confirm">Excluir</button>
+        </div>
+      </form>
+    </dialog>
+  </body>
+</html>

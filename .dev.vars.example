@@ -1,0 +1,5 @@
+# Desenvolvimento local apenas. Copie este arquivo para .dev.vars.
+# O modo local e recusado quando o hostname nao e localhost/loopback.
+AUTH_MODE="local"
+LOCAL_USER_EMAIL="voce@example.test"
+LOCAL_USER_NAME="Você"
