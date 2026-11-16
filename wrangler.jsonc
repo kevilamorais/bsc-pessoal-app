@@ -15,14 +15,12 @@
     {
       "binding": "DB",
       "database_name": "bsc-pessoal",
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_id": "5b6ca673-eba4-4ad3-984a-0086751b727a",
       "migrations_dir": "migrations"
     }
   ],
   "vars": {
-    "AUTH_MODE": "access",
-    "ACCESS_TEAM_DOMAIN": "https://SUA-EQUIPE.cloudflareaccess.com",
-    "ACCESS_AUD": "COLE_O_AUD_DA_APLICACAO"
+    "AUTH_MODE": "custom"
   },
   "observability": { "enabled": true }
 }
