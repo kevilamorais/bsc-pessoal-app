@@ -20,7 +20,8 @@
     }
   ],
   "vars": {
-    "AUTH_MODE": "custom"
+    "AUTH_MODE": "demo",
+    "DEMO_USER_ID": "demo-publico"
   },
   "observability": { "enabled": true }
 }

@@ -116,30 +116,81 @@ export async function verifyAccessToken(token, config, { fetcher = fetch, now = 
   return claims;
 }
 
+
 export async function identityFromRequest(request, env, options = {}) {
   const mode = env.AUTH_MODE || 'access';
+
+  // MODO DEMONSTRAÇÃO PÚBLICA
+  if (mode === 'demo') {
+    return {
+      mode: 'demo',
+      provider: 'demo',
+      subject: 'demo-publico',
+      email: 'demo@example.invalid',
+      name: 'Usuário Demonstração'
+    };
+  }
+
+  // MODO DESENVOLVIMENTO LOCAL
   if (mode === 'local') {
     const host = new URL(request.url).hostname;
+
     if (!['localhost', '127.0.0.1', '[::1]', '::1'].includes(host)) {
-      throw new AuthError(403, 'LOCAL_AUTH_FORBIDDEN', 'O modo de desenvolvimento só funciona em localhost.');
+      throw new AuthError(
+        403,
+        'LOCAL_AUTH_FORBIDDEN',
+        'O modo de desenvolvimento só funciona em localhost.'
+      );
     }
-    const email = String(env.LOCAL_USER_EMAIL || 'voce@example.test').trim().toLowerCase();
+
+    const email = String(
+      env.LOCAL_USER_EMAIL || 'demo-local@example.invalid'
+    ).trim().toLowerCase();
+
     return {
-      mode: 'local', provider: 'local', subject: email, email,
+      mode: 'local',
+      provider: 'local',
+      subject: email,
+      email,
       name: String(env.LOCAL_USER_NAME || 'Você').slice(0, 120)
     };
   }
-  if (mode !== 'access') throw new AuthError(503, 'AUTH_NOT_CONFIGURED', 'Modo de acesso inválido.');
+
+  // MODO CLOUDFLARE ACCESS
+  if (mode !== 'access') {
+    throw new AuthError(
+      503,
+      'AUTH_NOT_CONFIGURED',
+      'Modo de acesso inválido.'
+    );
+  }
+
   const config = accessConfig(env);
   const token = request.headers.get('Cf-Access-Jwt-Assertion');
-  if (!token) throw new AuthError(401, 'AUTH_REQUIRED', 'Entre pelo endereço protegido do aplicativo para continuar.');
+
+  if (!token) {
+    throw new AuthError(
+      401,
+      'AUTH_REQUIRED',
+      'Entre pelo endereço protegido do aplicativo para continuar.'
+    );
+  }
+
   const claims = await verifyAccessToken(token, config, options);
+
   return {
-    mode: 'access', provider: `cloudflare-access:${new URL(config.issuer).hostname}`,
-    subject: claims.sub, email: claims.email.toLowerCase(),
-    name: (typeof claims.name === 'string' && claims.name.trim() ? claims.name : claims.email.split('@')[0]).slice(0, 120)
+    mode: 'access',
+    provider: `cloudflare-access:${new URL(config.issuer).hostname}`,
+    subject: claims.sub,
+    email: claims.email.toLowerCase(),
+    name: (
+      typeof claims.name === 'string' && claims.name.trim()
+        ? claims.name
+        : claims.email.split('@')[0]
+    ).slice(0, 120)
   };
 }
+
 
 export async function authenticate(request, env) {
   const identity = await identityFromRequest(request, env);
